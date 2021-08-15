@@ -9,11 +9,11 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class SwapiRepositoryImpl @Inject constructor(
-	private val swapiService: SwapiService
+    private val swapiService: SwapiService
 ) : SwapiRepository {
-	override fun fetchHomeContent(): Single<SearchResultModel> {
-		return swapiService.getUsers()
-			.subscribeOn(Schedulers.io())
-			.delay(3, TimeUnit.SECONDS)
-	}
+    override fun fetchHomeContent(): Single<SearchResultModel> {
+        return swapiService.getUsers()
+            .subscribeOn(Schedulers.io())
+            .delay(1, TimeUnit.SECONDS)
+    }
 }
