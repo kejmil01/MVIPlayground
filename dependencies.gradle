@@ -3,7 +3,7 @@ ext {
 	okHttpVersion = '4.9.1'
 	hiltVersion = '1.0.0'
 	hiltViewModelVersion = '1.0.0-alpha03'
-	hiltAndroidVersion = '2.38'
+	hiltAndroidVersion = '2.38.1'
 	rxKotlin = '3.0.1'
 	rxAndroid = '3.0.0'
 	livedata = '2.3.1'
