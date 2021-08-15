@@ -1,0 +1,51 @@
+ext {
+	retrofitVersion = '2.9.0'
+	okHttpVersion = '4.9.1'
+	hiltVersion = '1.0.0'
+	hiltViewModelVersion = '1.0.0-alpha03'
+	hiltAndroidVersion = '2.38'
+	rxKotlin = '3.0.1'
+	rxAndroid = '3.0.0'
+	livedata = '2.3.1'
+	androidxAppcompatVersion = '1.3.1'
+	androidxCoreVersion = '1.6.0'
+	androidxConstraintLayoutVersion = '2.1.0'
+	androidxFragment = '1.3.6'
+	androidxNavigation = "2.3.5"
+	androidxSavedState = "2.3.1"
+	recyclerViewVersion = '1.2.0'
+
+	networkDependencies = [
+			okHttp           : "com.squareup.okhttp3:okhttp:${okHttpVersion}",
+			retrofit         : "com.squareup.retrofit2:retrofit:${retrofitVersion}",
+			retrofitConverter: "com.squareup.retrofit2:converter-gson:${retrofitVersion}",
+			retrofitAdapter  : "com.squareup.retrofit2:adapter-rxjava3:${retrofitVersion}"
+	]
+
+	rxDependencies = [
+			rxkotlin : 	"io.reactivex.rxjava3:rxkotlin:$rxKotlin",
+			rxandroid: 	"io.reactivex.rxjava3:rxandroid:$rxAndroid",
+			livedata:	"androidx.lifecycle:lifecycle-livedata-ktx:$livedata"
+	]
+
+	diDependencies = [
+			hiltAndroid         : "com.google.dagger:hilt-android:$hiltAndroidVersion",
+			hiltViewModelSupport: "androidx.hilt:hilt-lifecycle-viewmodel:$hiltViewModelVersion"
+	]
+
+	diProcessorDependencies = [
+			hiltAndroidCompiler: "com.google.dagger:hilt-android-compiler:$hiltAndroidVersion",
+			hiltCompiler       : "androidx.hilt:hilt-compiler:$hiltVersion"
+	]
+
+	androidxDependencies = [
+			appcompat            : "androidx.appcompat:appcompat:$androidxAppcompatVersion",
+			coreKtx              : "androidx.core:core-ktx:$androidxCoreVersion",
+			constraintLayout     : "androidx.constraintlayout:constraintlayout:$androidxConstraintLayoutVersion",
+			fragmentKtx          : "androidx.fragment:fragment-ktx:$androidxFragment",
+			navigationFragmentKtx: "androidx.navigation:navigation-fragment-ktx:$androidxNavigation",
+			navigationUiKtx      : "androidx.navigation:navigation-ui-ktx:$androidxNavigation",
+			recyclerView         : "androidx.recyclerview:recyclerview:$recyclerViewVersion",
+			savedState			 : "androidx.lifecycle:lifecycle-viewmodel-savedstate:$androidxSavedState"
+	]
+}
