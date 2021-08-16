@@ -4,5 +4,5 @@ import io.reactivex.rxjava3.core.Single
 import net.fezzed.mviplayground.data.network.model.SearchResultModel
 
 interface SwapiRepository {
-	fun fetchHomeContent(): Single<SearchResultModel>
+	fun searchPeople(query: String): Single<SearchResultModel>
 }

@@ -17,6 +17,32 @@
         android:layout_height="match_parent"
         tools:context=".ui.home.HomeFragment">
 
+        <EditText
+            android:id="@+id/searchView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:hint="@string/search_label"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:onTextChanged="@{(text, start, before, count) -> viewModel.onSearchChanged(text)}"
+            android:onEditorAction="@{(view, actionId, event) -> viewModel.onSearchDoneAction()}"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="LabelFor" />
+
+        <Button
+            android:id="@+id/searchButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:onClick="@{(v) -> viewModel.onSearchClick()}"
+            android:text="@string/search_button"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/searchView" />
+
         <net.fezzed.mviplayground.ui.home.list.ListRecyclerView
             android:id="@+id/content"
             android:layout_width="0dp"
@@ -29,7 +55,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/searchButton" />
 
         <TextView
             android:id="@+id/errorText"

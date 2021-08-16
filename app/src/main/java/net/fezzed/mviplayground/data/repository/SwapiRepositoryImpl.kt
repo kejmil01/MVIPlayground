@@ -11,8 +11,8 @@ import javax.inject.Inject
 class SwapiRepositoryImpl @Inject constructor(
     private val swapiService: SwapiService
 ) : SwapiRepository {
-    override fun fetchHomeContent(): Single<SearchResultModel> {
-        return swapiService.getUsers()
+    override fun searchPeople(query: String): Single<SearchResultModel> {
+        return swapiService.searchPeople(query)
             .subscribeOn(Schedulers.io())
             .delay(1, TimeUnit.SECONDS)
     }
