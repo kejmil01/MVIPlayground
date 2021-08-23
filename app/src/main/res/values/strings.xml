@@ -1,8 +1,10 @@
 <resources>
     <string name="app_name">MVIPlayground</string>
-    <string name="search_label">Type in text you want to search...</string>
+    <string name="search_label">Type in text you want to search…</string>
     <string name="item_name">Name: %1$s</string>
     <string name="item_birthday">Birthday: %1$s</string>
     <string name="item_height">Height: %1$s</string>
     <string name="search_button">Search</string>
+    <string name="search_no_results">No results</string>
+    <string name="search_indicator_text">Searching for: %s</string>
 </resources>
