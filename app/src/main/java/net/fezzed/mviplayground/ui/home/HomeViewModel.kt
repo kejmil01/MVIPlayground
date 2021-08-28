@@ -3,7 +3,6 @@ package net.fezzed.mviplayground.ui.home
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.map
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -34,9 +33,8 @@ class HomeViewModel @Inject constructor(
     val items: MutableLiveData<List<ItemModel>> = MutableLiveData(emptyList())
 
     val searchButtonEnabled = MutableLiveData(false)
-    val noResultsTextVisible = MutableLiveData(false)
-    val errorText = MutableLiveData<String>(null)
-    val errorVisible = errorText.map { !it.isNullOrEmpty() }
+    val noResultsMessageVisible = MutableLiveData(false)
+    val errorVisible = MutableLiveData(false)
 
     init {
         initialize()
@@ -98,21 +96,13 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun render(state: SearchPeopleState) {
-        Log.d("UDF_FLOW", " ----- RENDER -----: " + state.toString())
+        Log.d("UDF_FLOW", " ----- RENDER -----: $state")
 
         searchButtonEnabled.value = state.viewState.filterText.isNotEmpty()
         query.value = state.viewState.filterText
         loadingInProgress.value = state.viewState.inProgress
         items.value = state.viewState.itemList
-        /**
-         * If there is no inProgress call and
-         * query is not empty and
-         * there is no results
-         * then show No Results message
-         */
-        noResultsTextVisible.value =
-            !state.viewState.inProgress &&
-                    state.viewState.filterText.isNotEmpty() &&
-                    state.viewState.itemList.isEmpty()
+        noResultsMessageVisible.value = state.viewState.noResultsMessageVisible
+        errorVisible.value = state.viewState.error
     }
 }

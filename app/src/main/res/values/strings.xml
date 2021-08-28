@@ -7,4 +7,5 @@
     <string name="search_button">Search</string>
     <string name="search_no_results">No results</string>
     <string name="search_indicator_text">Searching for: %s</string>
+    <string name="something_went_wrong">Something went wrong.</string>
 </resources>
