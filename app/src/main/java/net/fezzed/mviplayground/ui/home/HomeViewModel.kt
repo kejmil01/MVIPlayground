@@ -1,6 +1,5 @@
 package net.fezzed.mviplayground.ui.home
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -9,7 +8,6 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.addTo
 import net.fezzed.mviplayground.udf.ActionBinding
 import net.fezzed.mviplayground.ui.home.business.OnTextChangedActionProcessor
-import net.fezzed.mviplayground.ui.home.business.RefreshTextStateActionProcessor
 import net.fezzed.mviplayground.ui.home.business.SearchRequestActionProcessor
 import net.fezzed.mviplayground.ui.home.model.ItemModel
 import net.fezzed.mviplayground.ui.home.udf.SearchPeopleAction
@@ -22,8 +20,7 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     val searchPeopleStore: SearchPeopleStore,
     private val filterTextChangedActionProcessor: OnTextChangedActionProcessor,
-    private val searchRequestActionProcessor: SearchRequestActionProcessor,
-    private val refreshTextStateActionProcessor: RefreshTextStateActionProcessor
+    private val searchRequestActionProcessor: SearchRequestActionProcessor
 ) : ViewModel() {
 
     private var searchCompositeDisposable = CompositeDisposable()
@@ -75,9 +72,6 @@ class HomeViewModel @Inject constructor(
                 ), ActionBinding(
                     SearchPeopleAction.SearchRequestAction::class,
                     searchRequestActionProcessor
-                ), ActionBinding(
-                    SearchPeopleAction.RefreshTextStateAction::class,
-                    refreshTextStateActionProcessor
                 )
             ),
             SearchPeopleReducerFactory.generateReducer(
@@ -96,10 +90,8 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun render(state: SearchPeopleState) {
-        Log.d("UDF_FLOW", " ----- RENDER -----: $state")
-
-        searchButtonEnabled.value = state.viewState.filterText.isNotEmpty()
         query.value = state.viewState.filterText
+        searchButtonEnabled.value = state.viewState.filterText.isNotEmpty()
         loadingInProgress.value = state.viewState.inProgress
         items.value = state.viewState.itemList
         noResultsMessageVisible.value = state.viewState.noResultsMessageVisible

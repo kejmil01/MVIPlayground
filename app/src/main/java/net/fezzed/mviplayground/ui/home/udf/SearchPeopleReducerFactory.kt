@@ -1,6 +1,5 @@
 package net.fezzed.mviplayground.ui.home.udf
 
-import android.util.Log
 import io.reactivex.rxjava3.functions.BiFunction
 import net.fezzed.mviplayground.udf.ProcessState
 
@@ -12,11 +11,6 @@ class SearchPeopleReducerFactory {
             return BiFunction { previousState: SearchPeopleState, result: SearchPeopleResult ->
                 when (result) {
                     is SearchPeopleResult.ItemsSuccess -> {
-                        Log.d(
-                            "UDF_FLOW",
-                            " ----- REDUCER SearchPeopleResult.ItemsSuccess -----"
-                        )
-
                         previousState.copy(
                             viewState = previousState.viewState.copy(
                                 itemList = result.items,
@@ -28,9 +22,6 @@ class SearchPeopleReducerFactory {
                         )
                     }
                     is SearchPeopleResult.ItemsInProgress -> {
-                        Log.d("UDF_FLOW", " ----- REDUCER SearchPeopleResult.ItemsInProgress -----")
-
-
                         previousState.copy(
                             viewState = previousState.viewState.copy(
                                 filterText = result.filterText,
@@ -42,11 +33,6 @@ class SearchPeopleReducerFactory {
                         )
                     }
                     is SearchPeopleResult.NewTextInput -> {
-                        Log.d(
-                            "UDF_FLOW",
-                            " ----- REDUCER SearchPeopleResult.NewTextInput -----"
-                        )
-
                         previousState.copy(
                             viewState = previousState.viewState.copy(
                                 filterText = result.filterText
@@ -54,11 +40,6 @@ class SearchPeopleReducerFactory {
                         )
                     }
                     SearchPeopleResult.QueryErrorResult -> {
-                        Log.d(
-                            "UDF_FLOW",
-                            " ----- REDUCER SearchPeopleResult.EmptyQueryErrorResult -----"
-                        )
-
                         store.oneTimeEvent.postValue(SearchPeopleOneTimeEvent.ErrorWhenTryingToSearch)
                         previousState.copy(
                             viewState = previousState.viewState.copy(
@@ -73,7 +54,5 @@ class SearchPeopleReducerFactory {
                 }
             }
         }
-
     }
-
 }

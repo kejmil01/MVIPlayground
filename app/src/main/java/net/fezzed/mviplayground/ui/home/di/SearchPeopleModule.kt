@@ -7,7 +7,6 @@ import dagger.hilt.android.components.ViewModelComponent
 import net.fezzed.mviplayground.domain.SwapiRepository
 import net.fezzed.mviplayground.ui.home.business.LoadItemsInteractor
 import net.fezzed.mviplayground.ui.home.business.OnTextChangedActionProcessor
-import net.fezzed.mviplayground.ui.home.business.RefreshTextStateActionProcessor
 import net.fezzed.mviplayground.ui.home.business.SearchRequestActionProcessor
 import net.fezzed.mviplayground.ui.home.udf.SearchPeopleStore
 
@@ -35,12 +34,5 @@ class SearchPeopleModule {
         interactor: LoadItemsInteractor
     ): SearchRequestActionProcessor {
         return SearchRequestActionProcessor(store, interactor)
-    }
-
-    @Provides
-    fun provideRefreshTextStateActionProcessor(
-        store: SearchPeopleStore
-    ): RefreshTextStateActionProcessor {
-        return RefreshTextStateActionProcessor(store)
     }
 }

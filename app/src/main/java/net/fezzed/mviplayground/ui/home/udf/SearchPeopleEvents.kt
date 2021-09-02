@@ -5,7 +5,6 @@ import net.fezzed.mviplayground.ui.home.model.ItemModel
 sealed class SearchPeopleAction {
     data class FilterTextChangedAction(val text: String) : SearchPeopleAction()
     data class SearchRequestAction(val text: String) : SearchPeopleAction()
-    object RefreshTextStateAction : SearchPeopleAction()
 }
 
 sealed class SearchPeopleResult {
