@@ -13,10 +13,10 @@ sealed class SearchPeopleResult {
     data class ItemsSuccess(val items: List<ItemModel>) : SearchPeopleResult()
     data class ItemsInProgress(val filterText: String) : SearchPeopleResult()
     sealed class ErrorResult : SearchPeopleResult()
-    object EmptyQueryErrorResult : ErrorResult()
+    object QueryErrorResult : ErrorResult()
 }
 
 sealed class SearchPeopleOneTimeEvent {
-    object IgnoreToast : SearchPeopleOneTimeEvent()
+    object ErrorWhenTryingToSearch : SearchPeopleOneTimeEvent()
 }
 

@@ -41,9 +41,6 @@ class LoadItemsInteractor(
             .subscribeOn(Schedulers.io())
             .map { response -> response.results }
             .toFlowable()
-            .doOnError { error ->
-                Log.e("SwapiTest", error.message ?: "")
-            }
             .map<SearchPeopleResult> { itemList ->
                 val itemModeList = itemList.map { item ->
                     ItemModel(item.name, item.birth_year, item.height)

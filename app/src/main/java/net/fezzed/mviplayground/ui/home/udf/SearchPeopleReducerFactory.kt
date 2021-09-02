@@ -53,12 +53,13 @@ class SearchPeopleReducerFactory {
                             )
                         )
                     }
-                    SearchPeopleResult.EmptyQueryErrorResult -> {
+                    SearchPeopleResult.QueryErrorResult -> {
                         Log.d(
                             "UDF_FLOW",
                             " ----- REDUCER SearchPeopleResult.EmptyQueryErrorResult -----"
                         )
 
+                        store.oneTimeEvent.postValue(SearchPeopleOneTimeEvent.ErrorWhenTryingToSearch)
                         previousState.copy(
                             viewState = previousState.viewState.copy(
                                 itemList = emptyList(),

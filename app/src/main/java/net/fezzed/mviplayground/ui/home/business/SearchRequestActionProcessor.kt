@@ -21,7 +21,7 @@ class SearchRequestActionProcessor @Inject constructor(
 
     override fun process(action: SearchPeopleAction.SearchRequestAction): Observable<SearchPeopleResult> {
         if (action.text.isEmpty() || action.text.contains("error")) {
-            return Observable.just(SearchPeopleResult.EmptyQueryErrorResult)
+            return Observable.just(SearchPeopleResult.QueryErrorResult)
         }
 
         return super.process(action)
