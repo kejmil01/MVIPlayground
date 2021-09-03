@@ -33,6 +33,6 @@ class SearchPeopleModule {
         store: SearchPeopleStore,
         interactor: LoadItemsInteractor
     ): SearchRequestActionProcessor {
-        return SearchRequestActionProcessor(store, interactor)
+        return SearchRequestActionProcessor(interactor)
     }
 }

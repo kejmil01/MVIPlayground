@@ -4,14 +4,11 @@ import io.reactivex.rxjava3.core.BackpressureStrategy
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import net.fezzed.mviplayground.udf.ContinuousActionProcessor
-import net.fezzed.mviplayground.udf.CurrentStateHolder
 import net.fezzed.mviplayground.ui.home.udf.SearchPeopleAction
 import net.fezzed.mviplayground.ui.home.udf.SearchPeopleResult
-import net.fezzed.mviplayground.ui.home.udf.SearchPeopleState
 import javax.inject.Inject
 
 class SearchRequestActionProcessor @Inject constructor(
-    private val stateHolder: CurrentStateHolder<SearchPeopleState>,
     private val loadItemsInteractor: LoadItemsInteractor
 ) : ContinuousActionProcessor<SearchPeopleAction.SearchRequestAction, SearchPeopleResult>() {
 
