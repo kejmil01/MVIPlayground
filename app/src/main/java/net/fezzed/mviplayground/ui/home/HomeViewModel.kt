@@ -45,7 +45,7 @@ class HomeViewModel @Inject constructor(
         )
     }
 
-    fun onSearchDoneAction(): Boolean {
+    fun onSearchDone(): Boolean {
         onSearchClick()
         return true
     }
