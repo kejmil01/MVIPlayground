@@ -36,7 +36,6 @@ open class Store<State, OneTimeEvent, Action : Any, ActionResult> : CurrentState
             .distinctUntilChanged()
             .toFlowable(BackpressureStrategy.BUFFER)
             .subscribe {
-                //TODO error handling?
                 mutableState.onNext(it)
             }
     }

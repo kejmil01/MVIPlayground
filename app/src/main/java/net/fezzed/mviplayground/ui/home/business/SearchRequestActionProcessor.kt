@@ -28,7 +28,6 @@ class SearchRequestActionProcessor @Inject constructor(
         feedSubject
             .subscribeOn(Schedulers.io())
             .map { it.text }
-            .distinctUntilChanged()
             .flatMap {
                 resultSubject.onNext(SearchPeopleResult.ItemsInProgress(it))
                 Observable.just(it)

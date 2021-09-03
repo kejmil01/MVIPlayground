@@ -8,7 +8,7 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.addTo
 import net.fezzed.mviplayground.udf.ActionBinding
 import net.fezzed.mviplayground.ui.home.business.OnTextChangedActionProcessor
-import net.fezzed.mviplayground.ui.home.business.SearchRequestActionProcessor
+import net.fezzed.mviplayground.ui.home.business.SimpleSearchRequestActionProcessor
 import net.fezzed.mviplayground.ui.home.model.ItemModel
 import net.fezzed.mviplayground.ui.home.udf.SearchPeopleAction
 import net.fezzed.mviplayground.ui.home.udf.SearchPeopleReducerFactory
@@ -20,7 +20,7 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     val searchPeopleStore: SearchPeopleStore,
     private val filterTextChangedActionProcessor: OnTextChangedActionProcessor,
-    private val searchRequestActionProcessor: SearchRequestActionProcessor
+    private val searchRequestActionProcessor: SimpleSearchRequestActionProcessor
 ) : ViewModel() {
 
     private var searchCompositeDisposable = CompositeDisposable()

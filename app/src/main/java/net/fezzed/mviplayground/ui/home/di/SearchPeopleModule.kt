@@ -8,6 +8,7 @@ import net.fezzed.mviplayground.domain.SwapiRepository
 import net.fezzed.mviplayground.ui.home.business.LoadItemsInteractor
 import net.fezzed.mviplayground.ui.home.business.OnTextChangedActionProcessor
 import net.fezzed.mviplayground.ui.home.business.SearchRequestActionProcessor
+import net.fezzed.mviplayground.ui.home.business.SimpleSearchRequestActionProcessor
 import net.fezzed.mviplayground.ui.home.udf.SearchPeopleStore
 
 @Module
@@ -30,9 +31,15 @@ class SearchPeopleModule {
 
     @Provides
     fun provideSearchRequestActionProcessor(
-        store: SearchPeopleStore,
         interactor: LoadItemsInteractor
     ): SearchRequestActionProcessor {
         return SearchRequestActionProcessor(interactor)
+    }
+
+    @Provides
+    fun provideSimpleSearchRequestActionProcessor(
+        interactor: LoadItemsInteractor
+    ): SimpleSearchRequestActionProcessor {
+        return SimpleSearchRequestActionProcessor(interactor)
     }
 }
