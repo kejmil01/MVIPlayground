@@ -11,6 +11,7 @@ sealed class SearchPeopleResult {
     data class NewTextInput(val filterText: String) : SearchPeopleResult()
     data class ItemsSuccess(val items: List<ItemModel>) : SearchPeopleResult()
     data class ItemsInProgress(val filterText: String) : SearchPeopleResult()
+
     sealed class ErrorResult : SearchPeopleResult()
     object QueryErrorResult : ErrorResult()
 }
