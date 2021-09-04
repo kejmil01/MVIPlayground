@@ -80,6 +80,10 @@ class HomeViewModel @Inject constructor(
             SearchPeopleState.EMPTY
         ).addTo(searchCompositeDisposable)
 
+        setupStateListener()
+    }
+
+    private fun setupStateListener() {
         searchPeopleStore
             .state
             .observeOn(AndroidSchedulers.mainThread())
