@@ -17,10 +17,9 @@ class SearchPeopleModule {
 
     @Provides
     fun provideLoadItemsInteractor(
-        store: SearchPeopleStore,
         api: SwapiRepository
     ): LoadItemsInteractor {
-        return LoadItemsInteractor(store, api)
+        return LoadItemsInteractor(api)
     }
 
     @Provides

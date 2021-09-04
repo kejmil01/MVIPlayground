@@ -18,8 +18,11 @@ class SimpleSearchRequestActionProcessor @Inject constructor(
         }
         return loadItemsInteractor
             .loadItems(action.text)
-            .toObservable()
             .subscribeOn(Schedulers.io())
+            .map<SearchPeopleResult> {
+                SearchPeopleResult.ItemsSuccess(it)
+            }
+            .toObservable()
             .startWith(Single.just(SearchPeopleResult.ItemsInProgress(action.text)))
     }
 

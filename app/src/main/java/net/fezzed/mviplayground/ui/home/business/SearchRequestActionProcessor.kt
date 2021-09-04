@@ -34,7 +34,11 @@ class SearchRequestActionProcessor @Inject constructor(
             }
             .toFlowable(BackpressureStrategy.LATEST)
             .flatMap {
-                loadItemsInteractor.loadItems(it)
+                loadItemsInteractor
+                    .loadItems(it)
+                    .map<SearchPeopleResult> { modelList ->
+                        SearchPeopleResult.ItemsSuccess(modelList)
+                    }
             }
             .subscribe {
                 resultSubject.onNext(it)
