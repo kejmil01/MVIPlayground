@@ -16,11 +16,10 @@ class SimpleSearchRequestActionProcessor @Inject constructor(
         if (action.text.isEmpty() || action.text.contains("error")) {
             return Observable.just(SearchPeopleResult.QueryErrorResult)
         }
-        return Observable.just(action.text)
+        return loadItemsInteractor
+            .loadItems(action.text)
+            .toObservable()
             .subscribeOn(Schedulers.io())
-            .flatMap {
-                loadItemsInteractor.loadItems(it).toObservable()
-            }
             .startWith(Single.just(SearchPeopleResult.ItemsInProgress(action.text)))
     }
 
