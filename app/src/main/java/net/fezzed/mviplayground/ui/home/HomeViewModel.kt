@@ -65,7 +65,7 @@ class HomeViewModel @Inject constructor(
 
     private fun initialize() {
         searchPeopleStore.initializeStream(
-            listOf(
+            bindings = listOf(
                 ActionBinding(
                     SearchPeopleAction.FilterTextChangedAction::class,
                     filterTextChangedActionProcessor
@@ -74,10 +74,10 @@ class HomeViewModel @Inject constructor(
                     searchRequestActionProcessor
                 )
             ),
-            SearchPeopleReducerFactory.generateReducer(
+            reducer = SearchPeopleReducerFactory.generateReducer(
                 searchPeopleStore
             ),
-            SearchPeopleState.EMPTY
+            initialState = SearchPeopleState.EMPTY
         ).addTo(searchCompositeDisposable)
 
         setupStateListener()
