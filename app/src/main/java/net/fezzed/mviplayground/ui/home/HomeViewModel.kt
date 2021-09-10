@@ -2,65 +2,103 @@ package net.fezzed.mviplayground.ui.home
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.map
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.disposables.Disposable
-import net.fezzed.mviplayground.domain.FetchHomeContentUseCase
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.kotlin.addTo
+import net.fezzed.mviplayground.udf.ActionBinding
+import net.fezzed.mviplayground.ui.home.business.OnTextChangedActionProcessor
+import net.fezzed.mviplayground.ui.home.business.SimpleSearchRequestActionProcessor
 import net.fezzed.mviplayground.ui.home.model.ItemModel
+import net.fezzed.mviplayground.ui.home.udf.SearchPeopleAction
+import net.fezzed.mviplayground.ui.home.udf.SearchPeopleReducerFactory
+import net.fezzed.mviplayground.ui.home.udf.SearchPeopleState
+import net.fezzed.mviplayground.ui.home.udf.SearchPeopleStore
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val fetchHomeContentUseCase: FetchHomeContentUseCase
+    val searchPeopleStore: SearchPeopleStore,
+    private val filterTextChangedActionProcessor: OnTextChangedActionProcessor,
+    private val searchRequestActionProcessor: SimpleSearchRequestActionProcessor
 ) : ViewModel() {
 
-    private var searchDisposable: Disposable? = null
+    private var searchCompositeDisposable = CompositeDisposable()
 
     val query = MutableLiveData("")
     val loadingInProgress: MutableLiveData<Boolean> = MutableLiveData(false)
     val items: MutableLiveData<List<ItemModel>> = MutableLiveData(emptyList())
-    val noResultsTextVisible = MutableLiveData(false)
-    val errorText = MutableLiveData<String>(null)
-    val errorVisible = errorText.map { !it.isNullOrEmpty() }
 
-    fun onSearchChanged(text: CharSequence) {
-        query.value = text.toString()
+    val searchButtonEnabled = MutableLiveData(false)
+    val noResultsMessageVisible = MutableLiveData(false)
+    val errorVisible = MutableLiveData(false)
+
+    init {
+        initialize()
     }
 
-    fun onSearchDoneAction(): Boolean {
+    fun onSearchQueryChanged(text: CharSequence) {
+        searchPeopleStore.onNextAction(
+            SearchPeopleAction.FilterTextChangedAction(
+                text.toString()
+            )
+        )
+    }
+
+    fun onSearchDone(): Boolean {
         onSearchClick()
         return true
     }
 
     fun onSearchClick() {
-        searchDisposable?.dispose()
-
-        loadingInProgress.value = true
-        noResultsTextVisible.value = false
-        errorText.value = ""
-
-        fetchHomeContentUseCase
-            .searchPeople(query.value ?: "")
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe { content, error ->
-                content?.let {
-                    errorText.value = ""
-
-                    val itemModeList = content.results.map { item ->
-                        ItemModel(item.name, item.birth_year, item.height)
-                    }
-                    items.value = itemModeList
-                    noResultsTextVisible.value = itemModeList.isEmpty()
-                } ?: run {
-                    errorText.value = error.message
-                }
-                loadingInProgress.value = false
-            }.also { searchDisposable = it }
+        searchPeopleStore.onNextAction(
+            SearchPeopleAction.SearchRequestAction(
+                searchPeopleStore.currentState?.viewState?.filterText ?: ""
+            )
+        )
     }
 
     override fun onCleared() {
-        searchDisposable?.dispose()
+        searchCompositeDisposable.dispose()
         super.onCleared()
+    }
+
+    private fun initialize() {
+        searchPeopleStore.initializeStream(
+            bindings = listOf(
+                ActionBinding(
+                    SearchPeopleAction.FilterTextChangedAction::class,
+                    filterTextChangedActionProcessor
+                ), ActionBinding(
+                    SearchPeopleAction.SearchRequestAction::class,
+                    searchRequestActionProcessor
+                )
+            ),
+            reducer = SearchPeopleReducerFactory.generateReducer(
+                searchPeopleStore
+            ),
+            initialState = SearchPeopleState.EMPTY
+        ).addTo(searchCompositeDisposable)
+
+        setupStateListener()
+    }
+
+    private fun setupStateListener() {
+        searchPeopleStore
+            .state
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe { state ->
+                render(state)
+            }
+            .addTo(searchCompositeDisposable)
+    }
+
+    private fun render(state: SearchPeopleState) {
+        query.value = state.viewState.filterText
+        searchButtonEnabled.value = state.viewState.filterText.isNotEmpty()
+        loadingInProgress.value = state.viewState.inProgress
+        items.value = state.viewState.itemList
+        noResultsMessageVisible.value = state.viewState.noResultsMessageVisible
+        errorVisible.value = state.viewState.error
     }
 }
